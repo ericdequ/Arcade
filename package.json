@@ -1,0 +1,17 @@
+{
+  "name": "@ric/arcade",
+  "version": "0.1.0",
+  "description": "A deterministic, pluggable party-game engine: seeded RNG, pure game logic, no-cloud lockstep multiplayer. Clone and add your own games.",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./engine": "./src/engine.js",
+    "./transport": "./src/transport.js"
+  },
+  "files": ["src/"],
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  },
+  "license": "MIT"
+}
