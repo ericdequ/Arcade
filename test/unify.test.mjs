@@ -1,22 +1,22 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 
 import {
-  standardDeck,
-  createDeck,
   blackjackValue,
+  catalog,
   compareRanks,
+  connectFour,
+  createCatalog,
+  createDeck,
   createGrid,
+  createMatch,
   dropToken,
+  games,
   hasConnection,
   isGridFull,
   normalizeGame,
-  createCatalog,
   robotricGames,
-  catalog,
-  games,
-  createMatch,
-  connectFour,
+  standardDeck,
 } from '../src/index.js';
 
 // --- cards (unified shape) -------------------------------------------------

@@ -7,8 +7,8 @@
 // deterministic: every device with the same seed sees the same cards.
 // =============================================================================
 
-import { defineGame } from '../engine.js';
 import { standardDeck } from '../cards.js';
+import { defineGame } from '../engine.js';
 
 export const higherLower = defineGame({
   id: 'higher-lower',

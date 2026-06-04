@@ -7,8 +7,8 @@
 // Clear all four to "get off the bus". Ported from BEV's ride-the-bus logic.
 // =============================================================================
 
-import { defineGame } from '../engine.js';
 import { standardDeck } from '../cards.js';
+import { defineGame } from '../engine.js';
 
 const STAGES = ['color', 'highlow', 'insideout', 'suit'];
 

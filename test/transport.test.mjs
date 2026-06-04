@@ -2,10 +2,10 @@
 // mirrors waves_worx's loopback channel contract { send, subscribe }. Two
 // "devices" exchange only actions and must converge to identical state.
 
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 
-import { joinMatch, seedFromSession, higherLower } from '../src/index.js';
+import { higherLower,joinMatch, seedFromSession } from '../src/index.js';
 
 // Minimal shared-medium bus (same shape as waves_worx createLoopbackBus).
 function bus() {

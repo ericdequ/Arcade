@@ -1,16 +1,16 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 
 import {
-  createMatch,
-  replayMatch,
-  games,
   blackjack,
-  snake,
-  roulette,
-  dealSequence,
-  sequenceDurationMs,
   CARD_MOTION,
+  createMatch,
+  dealSequence,
+  games,
+  replayMatch,
+  roulette,
+  sequenceDurationMs,
+  snake,
 } from '../src/index.js';
 
 // --- anim spec -------------------------------------------------------------

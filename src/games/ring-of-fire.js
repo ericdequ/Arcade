@@ -6,8 +6,8 @@
 // The deck order is seeded, so the whole table draws the same sequence.
 // =============================================================================
 
-import { defineGame } from '../engine.js';
 import { standardDeck } from '../cards.js';
+import { defineGame } from '../engine.js';
 
 // Rank → rule. The classic ruleset; override via options.rules.
 export const DEFAULT_RULES = Object.freeze({

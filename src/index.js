@@ -13,28 +13,28 @@
 // =============================================================================
 
 // Core
-export { makeRng, hashSeed } from './rng.js';
+export { CARD_MOTION, collect, deal as dealAnim, dealSequence, flip, sequenceDurationMs,slide } from './anim.js';
 export {
-  SUITS, RANKS, createDeck, standardDeck, shuffleDeck, drawCards, draw, deal, compareRanks, blackjackValue,
-} from './cards.js';
-export { CARD_MOTION, deal as dealAnim, flip, slide, collect, dealSequence, sequenceDurationMs } from './anim.js';
-export { createGrid, cloneGrid, findDropRow, dropToken, hasConnection, isGridFull } from './grid.js';
-export { defineGame, GameRegistry, games, createMatch, replayMatch } from './engine.js';
+blackjackValue,
+compareRanks, createDeck, deal, draw, drawCards, RANKS, shuffleDeck, standardDeck,   SUITS, } from './cards.js';
+export { createMatch, defineGame, GameRegistry, games, replayMatch } from './engine.js';
+export { cloneGrid, createGrid, dropToken, findDropRow, hasConnection, isGridFull } from './grid.js';
+export { hashSeed,makeRng } from './rng.js';
 export { joinMatch, seedFromSession } from './transport.js';
 
 // Catalog
-export { normalizeGame, createCatalog, mergeCollections } from './catalog.js';
-export { robotricGames, robotricCatalog } from './catalog/robotric.js';
+export { createCatalog, mergeCollections,normalizeGame } from './catalog.js';
+export { robotricCatalog,robotricGames } from './catalog/robotric.js';
 
 // Engine games — register the bundled set
 import { games } from './engine.js';
-import { higherLower } from './games/higher-lower.js';
-import { ringOfFire } from './games/ring-of-fire.js';
-import { rideTheBus } from './games/ride-the-bus.js';
-import { connectFour } from './games/connect-four.js';
 import { blackjack } from './games/blackjack.js';
-import { snake } from './games/snake.js';
+import { connectFour } from './games/connect-four.js';
+import { higherLower } from './games/higher-lower.js';
+import { rideTheBus } from './games/ride-the-bus.js';
+import { ringOfFire } from './games/ring-of-fire.js';
 import { roulette } from './games/roulette.js';
+import { snake } from './games/snake.js';
 
 games.register(higherLower);
 games.register(ringOfFire);
@@ -44,7 +44,7 @@ games.register(blackjack);
 games.register(snake);
 games.register(roulette);
 
-export { higherLower, ringOfFire, rideTheBus, connectFour, blackjack, snake, roulette };
+export { blackjack, connectFour, higherLower, rideTheBus, ringOfFire, roulette,snake };
 
 // Default catalog — the playable engine games as manifests + RobotRic's arcade.
 import { createCatalog, mergeCollections } from './catalog.js';

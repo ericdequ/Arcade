@@ -1,14 +1,14 @@
-import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { test } from 'node:test';
 
 import {
-  makeRng,
-  standardDeck,
-  defineGame,
   createMatch,
-  replayMatch,
+  defineGame,
   games,
   higherLower,
+  makeRng,
+  replayMatch,
+  standardDeck,
 } from '../src/index.js';
 
 test('rng: deterministic — same seed yields the same sequence', () => {

@@ -10,10 +10,10 @@
 // pulls the engine contract + the primitives it uses (cards/grid), nothing else.
 // =============================================================================
 
+export { blackjack } from './blackjack.js';
+export { connectFour } from './connect-four.js';
 export { higherLower } from './higher-lower.js';
 export { rideTheBus } from './ride-the-bus.js';
 export { ringOfFire } from './ring-of-fire.js';
-export { connectFour } from './connect-four.js';
-export { blackjack } from './blackjack.js';
-export { snake } from './snake.js';
 export { roulette } from './roulette.js';
+export { snake } from './snake.js';

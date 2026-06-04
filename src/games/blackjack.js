@@ -7,9 +7,9 @@
 // Deterministic → same seed deals the same shoe on every device.
 // =============================================================================
 
+import { collect,deal, dealSequence, flip } from '../anim.js';
+import { blackjackValue,standardDeck } from '../cards.js';
 import { defineGame } from '../engine.js';
-import { standardDeck, blackjackValue } from '../cards.js';
-import { dealSequence, deal, flip, collect } from '../anim.js';
 
 const value = blackjackValue;
 
