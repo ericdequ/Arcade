@@ -8,7 +8,7 @@
 // =============================================================================
 
 import { defineGame } from '../engine.js';
-import { standardDeck } from '../deck.js';
+import { standardDeck } from '../cards.js';
 
 const STAGES = ['color', 'highlow', 'insideout', 'suit'];
 

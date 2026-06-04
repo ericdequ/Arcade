@@ -65,24 +65,51 @@ export const myGame = defineGame({
 Use `rng` (never `Math.random`) so your game stays deterministic and works in
 lockstep multiplayer for free.
 
-## Bundled games
+## Two layers: engine + catalog
+
+Arcade unifies BEV's bar games and RobotRic's arcade into one library:
+
+- **Engine** — playable, deterministic, multiplayer-ready games (`defineGame`).
+- **Catalog** — manifests for browsing/launching *every* game. A manifest's
+  `launch` is `engine` (playable in-app, linked by `engineId`), `iframe` (a
+  Scratch embed), or `route` (an app page renders it, e.g. a canvas Snake).
+
+```js
+import { catalog, games, createMatch } from '@ric/arcade';
+
+catalog.list();                       // every game (browse the arcade)
+catalog.list({ tag: 'cards' });       // filter by tag/collection/launch/source
+const m = catalog.get('collapse-four'); // RobotRic's quantum connect-four…
+createMatch({ game: games.get(m.engineId), players, seed }); // …plays on the shared engine
+```
+
+RobotRic's branded games (`collapse-four`, `lll`, `ring-of-fire`) keep their
+names, thumbnails, and routes while reusing the shared playable engines.
+
+## Bundled engine games
 
 | id | players | from |
 |----|---------|------|
 | `higher-lower` | 1–8 | minimal engine example |
 | `ride-the-bus` | 1–8 | BEV bar arcade |
 | `ring-of-fire` | 2–12 | BEV bar arcade |
+| `connect-four` | 2 | RobotRic CollapseFour |
+
+Plus the RobotRic catalog (Scratch embeds, Snake, dev games) via `robotricGames`.
 
 ## API
 
 - `makeRng(seed)` — seeded PRNG: `next/int/range/pick/shuffle/fork`
-- `standardDeck()`, `buildDeck()`, `draw()`, `deal()` — card primitives
-- `defineGame()`, `GameRegistry`, `games`, `createMatch()`, `replayMatch()`
+- `standardDeck()`, `createDeck()`, `draw()`, `deal()`, `compareRanks()`, `blackjackValue()` — cards
+- `createGrid()`, `dropToken()`, `hasConnection()`, `isGridFull()` — board/grid
+- `defineGame()`, `GameRegistry`, `games`, `createMatch()`, `replayMatch()` — engine
 - `joinMatch()`, `seedFromSession()` — lockstep transport
+- `normalizeGame()`, `createCatalog()`, `mergeCollections()`, `catalog`, `robotricGames` — catalog
 
 ## Test
 
 ```bash
-npm test   # 11 cases: rng determinism, deck integrity, engine rules,
+npm test   # 20 cases: rng determinism, unified card shape + blackjack,
+           # grid/connect-four, catalog launch+engineId links, engine rules,
            # replay parity, and two-device lockstep convergence
 ```
