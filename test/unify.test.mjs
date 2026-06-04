@@ -76,8 +76,9 @@ test('catalog: robotric games link to engine games where playable', () => {
   assert.equal(cat.get('ring-of-fire').engineId, 'ring-of-fire');
   assert.equal(cat.get('collapse-four').engineId, 'connect-four');
   assert.equal(cat.get('lll').engineId, 'higher-lower');
+  assert.equal(cat.get('snake').engineId, 'snake'); // now backed by the grid engine
   assert.equal(cat.get('geos').launch, 'iframe');
-  assert.equal(cat.get('snake').launch, 'route');
+  assert.equal(cat.get('catvolution').launch, 'route'); // dev game, no engine yet
 });
 
 test('catalog: default catalog merges engine games + robotric, and every engineId resolves', () => {
