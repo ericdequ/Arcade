@@ -126,9 +126,11 @@ the same seed + tick stream race the **same board in lockstep**.
 ## Test
 
 ```bash
-npm test   # 20 cases: rng determinism, unified card shape + blackjack,
-           # grid/connect-four, catalog launch+engineId links, engine rules,
-           # replay parity, and two-device lockstep convergence
+npm test          # 28 JS cases: rng determinism, unified card shape + blackjack
+                  # deck logic, grid/connect-four, snake lockstep, roulette payout,
+                  # card-animation spec, catalog launch+engineId links, engine
+                  # rules, replay parity, two-device lockstep convergence
+cd go && go test ./...   # Go engine + JS-parity rng (3 pkgs)
 ```
 
 ## Improving this library
