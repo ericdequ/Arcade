@@ -42,6 +42,32 @@ me.play('guess', { guess: 'higher' });      // applied locally + sent to peers
 Every peer's local engine converges to identical state from the action stream
 alone (proven in `test/transport.test.mjs`).
 
+### Cloud-optional: same lockstep over a socket.io relay
+
+When peers aren't physically near (no BLE/sound range), run the *same*
+deterministic match over a featherweight relay. The relay never referees state
+and never decodes a frame — it only rebroadcasts opaque action bytes within a
+room — so the no-cloud determinism guarantee is unchanged; the relay is just the
+wire. `socket.io` / `socket.io-client` are `optionalDependencies`, lazy-loaded,
+so BLE/loopback consumers never pull a websocket stack.
+
+```js
+import { joinMatch, seedFromSession, games } from '@ric/arcade';
+import { socketChannel, createRelay } from '@ric/arcade/channels/socketio';
+
+// Server (anywhere): a relay that just rebroadcasts within a room.
+const { io } = await createRelay({ port: 4000 });
+
+// Each device: a { send, subscribe } channel backed by socket.io, keyed on the
+// shared seed so peers co-locate in one room.
+const seed = seedFromSession(roomCode, 'ride-the-bus');
+const channel = await socketChannel({ url: 'http://localhost:4000', room: seed });
+const me = joinMatch({ game: games.get('ride-the-bus'), players, seed, me: 'ana', channel });
+```
+
+`attachRelay(io)` folds the relay into an app's existing socket.io server.
+Proven peer-convergence over a real relay in `test/socketio.test.mjs`.
+
 ## Add your own game
 
 A game is one `defineGame()` call. Drop a file in `src/games/`, register it:
@@ -121,15 +147,18 @@ the same seed + tick stream race the **same board in lockstep**.
 - `createGrid()`, `dropToken()`, `hasConnection()`, `isGridFull()` — board/grid
 - `defineGame()`, `GameRegistry`, `games`, `createMatch()`, `replayMatch()` — engine
 - `joinMatch()`, `seedFromSession()` — lockstep transport
+- `socketChannel()`, `createRelay()`, `attachRelay()` (`@ric/arcade/channels/socketio`) — cloud-optional relay channel
 - `normalizeGame()`, `createCatalog()`, `mergeCollections()`, `catalog`, `robotricGames` — catalog
 
 ## Test
 
 ```bash
-npm test          # 28 JS cases: rng determinism, unified card shape + blackjack
+npm test          # 29 JS cases: rng determinism, unified card shape + blackjack
                   # deck logic, grid/connect-four, snake lockstep, roulette payout,
                   # card-animation spec, catalog launch+engineId links, engine
-                  # rules, replay parity, two-device lockstep convergence
+                  # rules, replay parity, two-device lockstep convergence, and
+                  # convergence over a real socket.io relay (skips if the
+                  # optional websocket deps aren't installed)
 cd go && go test ./...   # Go engine + JS-parity rng (3 pkgs)
 ```
 

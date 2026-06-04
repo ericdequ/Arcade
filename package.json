@@ -8,6 +8,7 @@
     ".": "./src/index.js",
     "./engine": "./src/engine.js",
     "./transport": "./src/transport.js",
+    "./channels/socketio": "./src/channels/socketio.js",
     "./rng": "./src/rng.js",
     "./cards": "./src/cards.js",
     "./grid": "./src/grid.js",
@@ -19,6 +20,10 @@
   "files": ["src/"],
   "scripts": {
     "test": "node --test test/*.test.mjs"
+  },
+  "optionalDependencies": {
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
   },
   "license": "MIT"
 }
