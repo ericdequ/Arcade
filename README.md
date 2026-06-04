@@ -130,3 +130,18 @@ npm test   # 20 cases: rng determinism, unified card shape + blackjack,
            # grid/connect-four, catalog launch+engineId links, engine rules,
            # replay parity, and two-device lockstep convergence
 ```
+
+## Improving this library
+
+This library is meant to keep getting **better and more versatile through use**.
+When you adopt it in a project and hit a gap — a missing variant, an awkward
+API, a pattern worth generalizing — don't work around it locally:
+
+1. Note it under **Usage learnings** below (or open an issue on this repo).
+2. When the value is clear, **extend the library** (new export / variant / game /
+   contract), add a test, then update the consumer. Prefer composition over
+   variant sprawl, and keep it tested.
+
+### Usage learnings
+
+- _(append discoveries here as the library gets used — date + project + the change)_
