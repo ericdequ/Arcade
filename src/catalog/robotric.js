@@ -16,6 +16,7 @@ const ENGINE = Object.freeze({
   LLL: 'higher-lower', // "guess the card, higher/lower hints" → higher-lower engine
   CollapseFour: 'connect-four', // quantum dressing over connect-four
   RTB: 'ride-the-bus',
+  Snake: 'snake', // grid engine game (tick/turn, seeded food → lockstep)
 });
 
 const ALIAS = Object.freeze({

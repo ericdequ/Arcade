@@ -94,8 +94,25 @@ names, thumbnails, and routes while reusing the shared playable engines.
 | `ride-the-bus` | 1–8 | BEV bar arcade |
 | `ring-of-fire` | 2–12 | BEV bar arcade |
 | `connect-four` | 2 | RobotRic CollapseFour |
+| `blackjack` | 1 | deck-logic + card-animation showcase |
+| `snake` | 1 | RobotRic Snake (grid, tick/turn → lockstep) |
+| `roulette` | 1–8 | RobotRic Saloon (seeded European wheel) |
 
-Plus the RobotRic catalog (Scratch embeds, Snake, dev games) via `robotricGames`.
+Plus the RobotRic catalog (Scratch embeds, dev games) via `robotricGames`.
+
+### Card animations
+
+Card games emit framework-agnostic **animation descriptors** (`anim.js`) so
+every table deals/flips/sweeps with consistent motion — `dealSequence` staggers
+a hand, `flip`/`slide`/`collect` describe single moves, all timed by shared
+`CARD_MOTION` tokens. The engine produces the card moves; feed the descriptors
+to CSS / Web Animations / framer. Blackjack uses them end-to-end.
+
+### Real-time games on a turn engine
+
+`snake` shows how a real-time game fits the deterministic engine: `turn` (input)
++ `tick` (the host advances on an interval). Seeded food means two devices with
+the same seed + tick stream race the **same board in lockstep**.
 
 ## API
 

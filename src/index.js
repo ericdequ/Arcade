@@ -17,6 +17,7 @@ export { makeRng, hashSeed } from './rng.js';
 export {
   SUITS, RANKS, createDeck, standardDeck, shuffleDeck, drawCards, draw, deal, compareRanks, blackjackValue,
 } from './cards.js';
+export { CARD_MOTION, deal as dealAnim, flip, slide, collect, dealSequence, sequenceDurationMs } from './anim.js';
 export { createGrid, cloneGrid, findDropRow, dropToken, hasConnection, isGridFull } from './grid.js';
 export { defineGame, GameRegistry, games, createMatch, replayMatch } from './engine.js';
 export { joinMatch, seedFromSession } from './transport.js';
@@ -31,13 +32,19 @@ import { higherLower } from './games/higher-lower.js';
 import { ringOfFire } from './games/ring-of-fire.js';
 import { rideTheBus } from './games/ride-the-bus.js';
 import { connectFour } from './games/connect-four.js';
+import { blackjack } from './games/blackjack.js';
+import { snake } from './games/snake.js';
+import { roulette } from './games/roulette.js';
 
 games.register(higherLower);
 games.register(ringOfFire);
 games.register(rideTheBus);
 games.register(connectFour);
+games.register(blackjack);
+games.register(snake);
+games.register(roulette);
 
-export { higherLower, ringOfFire, rideTheBus, connectFour };
+export { higherLower, ringOfFire, rideTheBus, connectFour, blackjack, snake, roulette };
 
 // Default catalog — the playable engine games as manifests + RobotRic's arcade.
 import { createCatalog, mergeCollections } from './catalog.js';
@@ -55,7 +62,7 @@ const engineManifest = (game, extra = {}) => ({
 });
 
 /** Manifests for every bundled playable game. */
-export const engineGames = [higherLower, ringOfFire, rideTheBus, connectFour].map((g) => engineManifest(g));
+export const engineGames = [higherLower, ringOfFire, rideTheBus, connectFour, blackjack, snake, roulette].map((g) => engineManifest(g));
 
 /** The default catalog: playable engine games + RobotRic's games, deduped. */
 export const catalog = createCatalog(mergeCollections(engineGames, robotricGames));
