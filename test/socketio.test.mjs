@@ -4,9 +4,10 @@
 // relay never decodes a frame; it only rebroadcasts within a room.
 //
 // Skips cleanly if socket.io / socket.io-client aren't installed (they're
-// optionalDependencies), so the core suite stays green without a websocket stack.
+// optional peers), so the core suite stays green without a websocket stack.
 
 import assert from 'node:assert/strict';
+import { createServer } from 'node:http';
 import { test } from 'node:test';
 
 import { higherLower, joinMatch, seedFromSession } from '../src/index.js';
@@ -20,10 +21,16 @@ const hasSocketIo = await Promise.all([
 test(
   'socketio transport: two clients converge over a relay',
   { skip: hasSocketIo ? false : 'socket.io optional deps not installed' },
-  async () => {
-    const { io, close } = await createRelay({ port: 0 });
-    const { port } = io.httpServer.address();
-    const url = `http://localhost:${port}`;
+  async (t) => {
+    const server = await listenLocalhost();
+    if (!server) {
+      t.skip('local listening sockets are unavailable in this environment');
+      return;
+    }
+
+    const { close } = await createRelay({ server });
+    const { port } = server.address();
+    const url = `http://127.0.0.1:${port}`;
     const room = seedFromSession('pairing-session-1', higherLower.id);
     const players = ['a', 'b'];
 
@@ -38,8 +45,22 @@ test(
     // Wait until both sockets are connected (and thus joined to the room).
     await Promise.all([ca, cb].map((c) => connected(c.socket)));
 
-    const a = joinMatch({ game: higherLower, players, seed: room, me: 'a', channel: ca, onState: onRemote('a') });
-    const b = joinMatch({ game: higherLower, players, seed: room, me: 'b', channel: cb, onState: onRemote('b') });
+    const a = joinMatch({
+      game: higherLower,
+      players,
+      seed: room,
+      me: 'a',
+      channel: ca,
+      onState: onRemote('a'),
+    });
+    const b = joinMatch({
+      game: higherLower,
+      players,
+      seed: room,
+      me: 'b',
+      channel: cb,
+      onState: onRemote('b'),
+    });
 
     for (let i = 0; i < 6; i += 1) {
       if (a.match.isOver()) break;
@@ -51,13 +72,31 @@ test(
       await withTimeout(landed, 2000, 'remote action never arrived over relay');
     }
 
-    assert.deepEqual(a.match.view(), b.match.view(), 'devices diverged across the relay');
+    assert.deepEqual(
+      a.match.view(),
+      b.match.view(),
+      'devices diverged across the relay'
+    );
 
     ca.close();
     cb.close();
     await close();
-  },
+    await closeServer(server);
+  }
 );
+
+function listenLocalhost() {
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.once('error', () => resolve(null));
+    server.listen(0, '127.0.0.1', () => resolve(server));
+  });
+}
+
+function closeServer(server) {
+  if (!server.listening) return Promise.resolve();
+  return new Promise((resolve) => server.close(() => resolve()));
+}
 
 function connected(socket) {
   if (socket.connected) return Promise.resolve();
@@ -67,6 +106,8 @@ function connected(socket) {
 function withTimeout(promise, ms, message) {
   return Promise.race([
     promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error(message)), ms).unref?.()),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error(message)), ms).unref?.()
+    ),
   ]);
 }

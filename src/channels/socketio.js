@@ -13,8 +13,9 @@
 // from the same ordered actions; the relay is just the wire.
 //
 // socket.io / socket.io-client are loaded LAZILY (dynamic import) and declared
-// as optionalDependencies, so consumers who only use the no-cloud channels never
-// pull a websocket stack. Import this module only when you want the relay path.
+// as optional peer dependencies, so consumers who only use the no-cloud channels
+// never pull a websocket stack. Import this module only when you want the relay
+// path.
 // =============================================================================
 
 const MSG = 'arcade.msg';

@@ -48,8 +48,9 @@ When peers aren't physically near (no BLE/sound range), run the *same*
 deterministic match over a featherweight relay. The relay never referees state
 and never decodes a frame — it only rebroadcasts opaque action bytes within a
 room — so the no-cloud determinism guarantee is unchanged; the relay is just the
-wire. `socket.io` / `socket.io-client` are `optionalDependencies`, lazy-loaded,
-so BLE/loopback consumers never pull a websocket stack.
+wire. `socket.io` / `socket.io-client` are optional peer dependencies,
+lazy-loaded, so BLE/loopback consumers never pull a websocket stack unless the
+host app opts into the relay.
 
 ```js
 import { joinMatch, seedFromSession, games } from '@ric/arcade';
@@ -158,7 +159,7 @@ npm test          # 29 JS cases: rng determinism, unified card shape + blackjack
                   # card-animation spec, catalog launch+engineId links, engine
                   # rules, replay parity, two-device lockstep convergence, and
                   # convergence over a real socket.io relay (skips if the
-                  # optional websocket deps aren't installed)
+                  # optional websocket peers aren't installed)
 cd go && go test ./...   # Go engine + JS-parity rng (3 pkgs)
 ```
 
